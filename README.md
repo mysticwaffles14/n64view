@@ -63,6 +63,12 @@ It was created to provide reliable support for controller adapters that do not m
 - [ ] Automatic controller detection
 - [ ] Additional adapter support
 
+## Development
+
+Active development takes place on the 'development' branch.
+
+The 'main' branch contains the latest stable version of N64View.
+
 ## License
 
 N64View is available under the MIT License.
