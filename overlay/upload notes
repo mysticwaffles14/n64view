@@ -1,7 +1,0 @@
-Upload these files and folders to the repository root.
-
-Important cleanup:
-- Replace the current contents of overlay/ with this package's overlay/ contents.
-- Do not keep overlay/MF103_N64_Overlay_v0_4 as a nested folder.
-- Keep the existing LICENSE file already in the repository.
-- Delete UPLOAD_NOTES.txt after completing the upload.
