@@ -12,37 +12,46 @@
 </head>
 
 <body>
+    <body>
+    <div id="app">
+        <h1>N64View</h1>
+        <h2>Developer Dashboard</h2>
 
-<div id="app">
+        <div id="viewport">
+            <div id="a-button">
+                A
+            </div>
+        </div>
 
-    <h1>N64View</h1>
+        <div class="panel">
+            <p>
+                A
+                <span class="value" id="a-value">OFF</span>
+            </p>
 
-    <h2>Developer Dashboard</h2>
+            <p>
+                B
+                <span class="value" id="b-value">OFF</span>
+            </p>
 
-    <div class="panel">
+            <p>
+                Start
+                <span class="value" id="start-value">OFF</span>
+            </p>
 
-        <p>A: <span id="a-value">OFF</span></p>
+            <p>
+                Stick X
+                <span class="value" id="stick-x">0.00</span>
+            </p>
 
-        <p>B: <span id="b-value">OFF</span></p>
-
-        <p>Start: <span id="start-value">OFF</span></p>
-
-        <br>
-
-        <p>Stick X:
-            <span id="stick-x">0.00</span>
-        </p>
-
-        <p>Stick Y:
-            <span id="stick-y">0.00</span>
-        </p>
-
+            <p>
+                Stick Y
+                <span class="value" id="stick-y">0.00</span>
+            </p>
+        </div>
     </div>
 
-</div>
-
-<script type="module" src="js/main.js"></script>
-
+    <script type="module" src="js/main.js"></script>
 </body>
 
 </html>
