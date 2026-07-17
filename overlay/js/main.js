@@ -16,7 +16,7 @@ function update() {
         const currentState = JSON.stringify(controller);
 
         if (currentState !== previousState) {
-            console.log(currentState);
+            //console.log(currentState);
             previousState = currentState;
         }
     } else if (previousState !== "disconnected") {
