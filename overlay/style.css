@@ -83,7 +83,34 @@ h2 {
     pointer-events: none;
 }
 
+#layout-info {
+    display: none;
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    z-index: 2;
+
+    padding: 6px 10px;
+    border-radius: 6px;
+
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+
+    font-family: monospace;
+    font-size: 13px;
+
+    pointer-events: none;
+}
+
 /* ---------- Shared Controller Button ---------- */
+
+.controller-button {
+        cursor: grab;       
+}
+
+.controller-button:active {
+    cursor: grabbing;
+}
 
 .controller-button {
     outline: none;
@@ -135,14 +162,14 @@ h2 {
 
 /* ---------- C Button Positions ---------- */
 
-#c-up {
+#c-Up {
 }
 
-#c-left {
+#c-Left {
 }
 
-#c-right {
+#c-Right {
 }
 
-#c-down {
+#c-Down {
 }
