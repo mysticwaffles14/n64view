@@ -40,166 +40,267 @@ export class Renderer {
             }
         };
 
-        for (const button of Object.values(this.buttons)) {
+    for (const button of Object.values(this.buttons)) {
             this.positionButton(button);
         }
 
-        this.aValue = document.getElementById("a-value");
-        this.bValue = document.getElementById("b-value");
-        this.startValue = document.getElementById("start-value");
-        this.stickX = document.getElementById("stick-x");
-        this.stickY = document.getElementById("stick-y");
-        this.layoutInfo = document.getElementById("layout-info");
+            this.initializeUI();
+            this.initializeEditor();
+            this.initializeKeyboardShortcuts();
+            this.initializeMouseHandlers();
+            this.createGrid();
+            this.loadLayout();
+}
 
-this.layoutMode = false;
-this.selectedButton = null;
-this.draging = false;
-this.dragOffsetX = 0;
-this.dragOffsetY = 0;
-
-window.addEventListener("keydown", (event) => {
-    if (event.key === "F2") {
-        event.preventDefault();
-
-        this.layoutMode = !this.layoutMode;
-
-        if (!this.layoutMode) {
-            this.selectedButton = null;
-        }
-
-        this.updateLayoutMode();
-
-        console.log(
-            this.layoutMode
-                ? "Layout Mode ON"
-                : "Layout Mode OFF"
-        );
-
-        return;
-    }
-
-if (this.layoutMode && event.key === "Escape") {
-    event.preventDefault();
-
+initializeEditor() {
+    this.layoutMode = false;
     this.selectedButton = null;
-    this.updateLayoutMode();
 
-    console.log("Button deselected");
-    return;
-}
+    this.dragging = false;
+    this.dragOffsetX = 0;
+    this.dragOffsetY = 0;
 
-    if (this.layoutMode && event.key.toLowerCase() === "c") {
-        event.preventDefault();
-        this.copyLayout();
-        return;
-    }
-    if (!this.layoutMode || !this.selectedButton) {
-    return;
+    this.history = [];
+    this.redoHistory = [];
+
+    this.snapToGrid = false;
+    this.gridSize = 10;
+
 
 }
 
-const step = event.shiftKey ? 10 : 1;
+initializeUI() {
+    this.aValue = document.getElementById("a-value");
+    this.bValue = document.getElementById("b-value");
+    this.startValue = document.getElementById("start-value");
+    this.stickX = document.getElementById("stick-x");
+    this.stickY = document.getElementById("stick-y");
 
-switch (event.key) {
-    case "ArrowUp":
-    this.moveSelectedButton(0, -step);
-    break;
-
-    case "ArrowDown":
-    this.moveSelectedButton(0, step);
-    break;
-
-case "ArrowLeft":
-    this.moveSelectedButton(-step, 0);
-    break;
-
-case "ArrowRight":
-    this.moveSelectedButton(step, 0);
-    break;
-
-    default:
-        return;
+    this.layoutInfo = document.getElementById("layout-info");
+    this.grid = document.getElementById("grid");
 }
 
-event.preventDefault();
+initializeKeyboardShortcuts() {
+    window.addEventListener("keydown", (event) => {
+        if (event.key === "F2") {
+            event.preventDefault();
 
-console.log(
-    `Position: x=${this.selectedButton.x}, y=${this.selectedButton.y}`
-);
-    
-});
+            this.layoutMode = !this.layoutMode;
 
-for (const [name, button] of Object.entries(this.buttons)) {
-    button.element.addEventListener("mousedown", (event) => {
-        if (!this.layoutMode) {
+            if (!this.layoutMode) {
+                this.selectedButton = null;
+            }
+
+            this.updateLayoutMode();
+
+            console.log(
+                this.layoutMode
+                    ? "Layout Mode ON"
+                    : "Layout Mode OFF"
+            );
+
             return;
         }
 
+        if(event.ctrlKey && event.key.toLowerCase() === "s") {
+            event.preventDefault();
+            this.saveLayout();
+            return;
+        }
+
+        if (
+            this.layoutMode &&
+            event.ctrlKey &&
+            event.key.toLowerCase() === "z"
+        ) {
+            event.preventDefault();
+            this.undo();
+            return;
+        }
+
+        if (
+            this.layoutMode &&
+            event.ctrlKey &&
+            event.key.toLowerCase() === "y"
+        ) {
+            event.preventDefault();
+
+            this.redo();
+
+            return;
+}
+
+        if (this.layoutMode && event.key === "Escape") {
+            event.preventDefault();
+
+            this.selectedButton = null;
+            this.updateLayoutMode();
+
+            console.log("Button deselected");
+            return;
+        }
+
+        if (
+            this.layoutMode &&
+            event.key.toLowerCase() === "c"
+        ) {
+            event.preventDefault();
+            this.copyLayout();
+            return;
+        }
+
+        if (
+            this.layoutMode &&
+            event.key.toLowerCase() === "l"
+        ) {
+            event.preventDefault();
+
+            this.loadLayout();
+
+            return;
+}
+
+        if (
+            this.layoutMode &&
+            event.key.toLowerCase() === "g"
+        ) {
+            event.preventDefault();
+
+            this.snapToGrid = !this.snapToGrid;
+            this.updateLayoutMode();
+
+            console.log(
+                this.snapToGrid
+                    ? "Snap to Grid ON"
+                    : "Snap to Grid OFF"
+            );
+
+            return;
+        }
+
+        if (!this.layoutMode || !this.selectedButton) {
+            return;
+        }
+
+        const step = event.shiftKey ? 10 : 1;
+
+        switch (event.key) {
+            case "ArrowUp":
+                this.saveHistory();
+                this.moveSelectedButton(0, -step);
+                break;
+
+            case "ArrowDown":
+                this.saveHistory();
+                this.moveSelectedButton(0, step);
+                break;
+
+            case "ArrowLeft":
+                this.saveHistory();
+                this.moveSelectedButton(-step, 0);
+                break;
+
+            case "ArrowRight":
+                this.saveHistory();
+                this.moveSelectedButton(step, 0);
+                break;
+
+            default:
+                return;
+        }
+
         event.preventDefault();
 
-        this.selectedButton = button;
-        this.dragging = true;
+        console.log(
+            `Position: x=${this.selectedButton.x}, y=${this.selectedButton.y}`
+        );
+    });
+}
+
+initializeMouseHandlers() {
+    for (const [name, button] of Object.entries(this.buttons)) {
+        button.element.addEventListener("mousedown", (event) => {
+            if (!this.layoutMode) {
+                return;
+            }
+
+            event.preventDefault();
+
+            this.saveHistory();
+            this.selectedButton = button;
+            this.dragging = true;
+
+            const viewportRect =
+                button.element.parentElement.getBoundingClientRect();
+
+            const mouseX = event.clientX - viewportRect.left;
+            const mouseY = event.clientY - viewportRect.top;
+
+            this.dragOffsetX = mouseX - button.x;
+            this.dragOffsetY = mouseY - button.y;
+
+            this.updateLayoutMode();
+
+            console.log(`Selected button: ${name}`);
+        });
+    }
+
+    window.addEventListener("mousemove", (event) => {
+        if (
+            !this.layoutMode ||
+            !this.dragging ||
+            !this.selectedButton
+        ) {
+            return;
+        }
 
         const viewportRect =
-            button.element.parentElement.getBoundingClientRect();
+            this.selectedButton.element.parentElement
+                .getBoundingClientRect();
 
         const mouseX = event.clientX - viewportRect.left;
         const mouseY = event.clientY - viewportRect.top;
 
-        this.dragOffsetX = mouseX - button.x;
-        this.dragOffsetY = mouseY - button.y;
+        const newX = mouseX - this.dragOffsetX;
+        const newY = mouseY - this.dragOffsetY;
 
-        this.updateLayoutMode();
+        const dx = newX - this.selectedButton.x;
+        const dy = newY - this.selectedButton.y;
 
-        console.log(`Selected button: ${name}`);
+        this.moveSelectedButton(dx, dy);
     });
-
-    window.addEventListener("mousemove", (event) => {
-    if (
-        !this.layoutMode ||
-        !this.dragging ||
-        !this.selectedButton
-    ) {
-        return;
-    }
-
-    const viewportRect =
-        this.selectedButton.element.parentElement
-            .getBoundingClientRect();
-
-    const mouseX = event.clientX - viewportRect.left;
-    const mouseY = event.clientY - viewportRect.top;
-
-    const newX = mouseX - this.dragOffsetX;
-    const newY = mouseY - this.dragOffsetY;
-
-    const dx = newX - this.selectedButton.x;
-    const dy = newY - this.selectedButton.y;
-
-    this.moveSelectedButton(dx, dy);
-});
 
     window.addEventListener("mouseup", () => {
         this.dragging = false;
-
-});
-
+    });
 }
 
-    }
-    
     positionButton(button) {
         button.element.style.left = `${button.x}px`;
         button.element.style.top = `${button.y}px`;
     }
+
     
     moveSelectedButton(dx, dy) {
     if (!this.selectedButton) {
         return;
     }
 
-    this.selectedButton.x += dx;
-    this.selectedButton.y += dy;
+    let newX = this.selectedButton.x + dx;
+    let newY = this.selectedButton.y + dy;
+
+    if (this.snapToGrid) {
+        newX =
+            Math.round(newX / this.gridSize) *
+            this.gridSize;
+
+        newY =
+            Math.round(newY / this.gridSize) *
+            this.gridSize;
+}
+
+this.selectedButton.x = newX;
+this.selectedButton.y = newY;
 
     this.positionButton(this.selectedButton);
     this.updateLayoutInfo();
@@ -225,6 +326,11 @@ updateLayoutMode() {
             button.element.style.outline = "2px solid white";
         }
     }
+        this.updateLayoutInfo();
+        this.grid.style.display =
+            this.layoutMode && this.snapToGrid
+            ? "block"
+            : "none";
 }
 
 copyLayout() {
@@ -263,8 +369,137 @@ updateLayoutInfo() {
 
     this.layoutInfo.textContent =
         `X: ${this.selectedButton.x} | Y: ${this.selectedButton.y}`;
-
 }
+
+getLayoutSnapshot() {
+    const snapshot = {};
+
+    for (const [name, button] of Object.entries(this.buttons)) {
+        snapshot[name] = {
+            x: button.x,
+            y: button.y
+        };
+    }
+
+    return snapshot;
+}
+
+saveHistory() {
+    this.history.push(this.getLayoutSnapshot());
+
+    this.redoHistory = [];
+
+    console.log("Layout state saved");
+}
+
+undo() {
+    const previousLayout = this.history.pop();
+
+    if (!previousLayout) {
+        console.log("Nothing to undo");
+        return;
+    }
+
+    this.redoHistory.push(this.getLayoutSnapshot());
+
+    for (const [name, position] of Object.entries(previousLayout)) {
+        const button = this.buttons[name];
+
+        button.x = position.x;
+        button.y = position.y;
+
+        this.positionButton(button);
+    }
+
+    this.updateLayoutInfo();
+    console.log("Undo complete");
+}
+
+redo() {
+    const nextLayout = this.redoHistory.pop();
+
+    if (!nextLayout) {
+        console.log("Nothing to redo");
+        return;
+    }
+
+    this.history.push(this.getLayoutSnapshot());
+
+    for (const [name, position] of Object.entries(nextLayout)) {
+        const button = this.buttons[name];
+
+        button.x = position.x;
+        button.y = position.y;
+
+        this.positionButton(button);
+    }
+
+    this.updateLayoutInfo();
+
+    console.log("Redo complete");
+}
+
+createGrid() {
+    this.grid.innerHTML = "";
+
+    const width = this.grid.clientWidth;
+    const height = this.grid.clientHeight;
+
+    for (let x = 0; x <= width; x += this.gridSize) {
+        const line = document.createElement("div");
+
+        line.className = "grid-line vertical";
+        line.style.left = `${x}px`;
+
+        this.grid.appendChild(line);
+    }
+
+    for (let y = 0; y <= height; y += this.gridSize) {
+        const line = document.createElement("div");
+
+        line.className = "grid-line horizontal";
+        line.style.top = `${y}px`;
+
+        this.grid.appendChild(line);
+    }
+}
+
+saveLayout() {
+    const layout = this.getLayoutSnapshot();
+    const layoutText = JSON.stringify(layout);
+        localStorage.setItem("n64view-layout", layoutText);
+        console.log("Layout saved to localStorage");
+}   
+
+loadLayout() {
+    const layoutText =
+        localStorage.getItem("n64view-layout");
+
+    if (!layoutText) {
+        console.log("No saved layout found");
+        return;
+    }
+
+    const layout = JSON.parse(layoutText);
+
+    for (const [name, position] of Object.entries(layout)) {
+        const button = this.buttons[name];
+
+        if (!button) {
+            continue;
+        }
+
+        button.x = position.x;
+        button.y = position.y;
+
+        this.positionButton(button);
+    }
+
+    this.updateLayoutInfo();
+
+    console.log("Layout loaded");
+}
+
     render() {
         this.aValue.textContent = this.controller.a ? "ON" : "OFF";
         this.bValue.textContent = this.controller.b ? "ON" : "OFF";

@@ -102,6 +102,28 @@ h2 {
     pointer-events: none;
 }
 
+#grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    display: none;
+}
+
+.grid-line {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.grid-line.horizontal {
+    height: 1px;
+    width: 100%;
+}
+
+.grid-line.vertical {
+    width: 1px;
+    height: 100%;
+}
+
 /* ---------- Shared Controller Button ---------- */
 
 .controller-button {
@@ -173,3 +195,4 @@ h2 {
 
 #c-Down {
 }
+
