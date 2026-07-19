@@ -74,28 +74,38 @@ export class Renderer {
                 editable: false
             },
 
-            cUp: {
-                element: document.getElementById("c-up"),
-                x: 310,
+            cButtons: {
+                element: document.getElementById("c-buttons"),
+                x: 275,
                 y: 80
             },
 
-            cLeft: {
-                element: document.getElementById("c-left"),
-                x: 275,
-                y: 115
-            },
-
-            cRight: {
-                element: document.getElementById("c-right"),
-                x: 345,
-                y: 115
+            cUp: {
+                element: document.getElementById("c-up"),
+                x: 45,
+                y: 0,
+                editable: false
             },
 
             cDown: {
                 element: document.getElementById("c-down"),
-                x: 310,
-                y: 150
+                x: 45,
+                y: 60,
+                editable: false
+            },
+
+            cLeft: {
+                element: document.getElementById("c-left"),
+                x: 15,
+                y: 30,
+                editable: false
+            },
+
+            cRight: {
+                element: document.getElementById("c-right"),
+                x: 75,
+                y: 30,
+                editable: false
             },
 
             stick: {
@@ -379,13 +389,13 @@ this.selectedButton.y = newY;
 }
     animateButton(button, pressed) {
         button.element.style.transform = pressed
-            ? "scale(0.9)"
-            : "scale(1)";
+        ? "translateY(2px) scale(0.96)"
+        : "translateY(0) scale(1)";
 
         button.element.style.filter = pressed
-            ? "brightness(1.6)"
-            : "brightness(1)";
-    }
+        ? "brightness(1.25)"
+        : "brightness(1)";
+}
 
 updateLayoutMode() {
     for (const button of Object.values(this.buttons)) {
