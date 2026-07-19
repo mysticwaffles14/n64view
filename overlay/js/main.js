@@ -10,13 +10,13 @@ let previousState = "";
 
 function update() {
     const connected = inputManager.update();
-    renderer.render();  
-     
+    renderer.render();
+   
     if (connected) {
         const currentState = JSON.stringify(controller);
 
         if (currentState !== previousState) {
-            //console.log(currentState);
+            console.log(currentState);
             previousState = currentState;
         }
     } else if (previousState !== "disconnected") {

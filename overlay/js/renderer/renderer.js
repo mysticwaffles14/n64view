@@ -156,6 +156,11 @@ initializeUI() {
 
     this.layoutInfo = document.getElementById("layout-info");
     this.grid = document.getElementById("grid");
+    this.debugPanel =
+    document.getElementById("debug-panel");
+
+    this.developerHeader =
+    document.getElementById("developer-header");
 }
 
 initializeKeyboardShortcuts() {
@@ -412,6 +417,19 @@ updateLayoutMode() {
             this.layoutMode && this.snapToGrid
             ? "block"
             : "none";
+
+        this.debugPanel.style.display =
+            this.layoutMode 
+            ? "block" 
+            : "none";
+
+        this.developerHeader.style.display =
+            this.layoutMode ? "block" : "none";
+
+        document.body.classList.toggle(
+            "editor-mode",
+            this.layoutMode
+);
 }
 
 copyLayout() {
