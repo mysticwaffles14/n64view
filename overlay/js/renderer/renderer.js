@@ -15,6 +15,54 @@ export class Renderer {
                 y: 155
             },
 
+            start: {
+                element: document.getElementById("start-button"),
+                x: 200,
+                y: 230
+            },
+
+            z: {
+                element: document.getElementById("z-button"),
+                x: 170,
+                y: 245
+            },
+
+            l: {
+                element: document.getElementById("l-button"),
+                x: 35,
+                y: 35
+            },
+
+            r: {
+                element: document.getElementById("r-button"),
+                x: 325,
+                y: 35
+            },
+
+            dUp: {
+                element: document.getElementById("d-up"),
+                x: 70,
+                y: 120
+            },
+
+            dDown: {
+                element: document.getElementById("d-down"),
+                x: 70,
+                y: 180
+            },
+
+            dLeft: {
+                element: document.getElementById("d-left"),
+                x: 40,
+                y: 150
+            },
+
+            dRight: {
+                element: document.getElementById("d-right"),
+                x: 100,
+                y: 150
+            },
+
             cUp: {
                 element: document.getElementById("c-up"),
                 x: 310,
@@ -37,7 +85,13 @@ export class Renderer {
                 element: document.getElementById("c-down"),
                 x: 310,
                 y: 150
-            }
+            },
+
+            stick: {
+                element: document.getElementById("stick-base"),
+                x: 150,
+                y: 150
+            },
         };
 
     for (const button of Object.values(this.buttons)) {
@@ -75,6 +129,9 @@ initializeUI() {
     this.startValue = document.getElementById("start-value");
     this.stickX = document.getElementById("stick-x");
     this.stickY = document.getElementById("stick-y");
+
+    this.stickIndicator =
+        document.getElementById("stick-indicator");
 
     this.layoutInfo = document.getElementById("layout-info");
     this.grid = document.getElementById("grid");
@@ -464,6 +521,31 @@ createGrid() {
     }
 }
 
+updateStickIndicator() {
+    const maxMovement = 25;
+    const deadzone = 0.08;
+
+    let x = this.controller.stick.x;
+    let y = this.controller.stick.y;
+
+    if (Math.abs(x) < deadzone) {
+        x = 0;
+    }
+
+    if (Math.abs(y) < deadzone) {
+        y = 0;
+    }
+
+    x *= maxMovement;
+    y *= maxMovement;
+
+    this.stickIndicator.style.transform =
+        `translate(
+            calc(-50% + ${x}px),
+            calc(-50% + ${y}px)
+        )`;
+}
+
 saveLayout() {
     const layout = this.getLayoutSnapshot();
     const layoutText = JSON.stringify(layout);
@@ -504,11 +586,35 @@ loadLayout() {
         this.aValue.textContent = this.controller.a ? "ON" : "OFF";
         this.bValue.textContent = this.controller.b ? "ON" : "OFF";
         this.startValue.textContent = this.controller.start ? "ON" : "OFF";
-
+                
         this.stickX.textContent = this.controller.stick.x.toFixed(2);
         this.stickY.textContent = this.controller.stick.y.toFixed(2);
 
         this.animateButton(this.buttons.a, this.controller.a);
         this.animateButton(this.buttons.b, this.controller.b);
+        this.animateButton(this.buttons.start, this.controller.start);
+        this.animateButton(this.buttons.z, this.controller.z);
+        
+        this.animateButton(this.buttons.dUp, this.controller.dUp);
+        this.animateButton(this.buttons.dDown, this.controller.dDown);
+        this.animateButton(this.buttons.dLeft, this.controller.dLeft);
+        this.animateButton(this.buttons.dRight, this.controller.dRight);
+
+        this.animateButton(this.buttons.cUp, this.controller.cUp);
+        this.animateButton(this.buttons.cDown, this.controller.cDown);
+        this.animateButton(this.buttons.cLeft, this.controller.cLeft);
+        this.animateButton(this.buttons.cRight, this.controller.cRight);
+
+        this.animateButton(
+            this.buttons.l,
+            this.controller.l
+        );
+
+        this.animateButton(
+            this.buttons.r,
+            this.controller.r
+        );
+
+        this.updateStickIndicator();
     }
 }

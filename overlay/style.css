@@ -170,6 +170,17 @@ h2 {
     font-weight: bold;
 }
 
+/* ---------- D-Pad Buttons ---------- */
+#d-up,
+#d-down,
+#d-left,
+#d-right {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background: #333;
+}
+
 /* ---------- A Button ---------- */
 
 #a-button {
@@ -180,6 +191,55 @@ h2 {
 
 #b-button {
     background: #00a859;
+}
+
+/* ---------- Start Button ---------- */
+
+#start-button {
+    background: #ff3c3c;
+}   
+
+/* ---------- Z Button ---------- */
+
+#z-button {
+    width: 50px;
+    height: 50px;
+    background: #777;
+    color: white;
+}
+
+/* ---------- Trigger Buttons ---------- */
+#l-button,
+#r-button {
+    width: 65px;
+    height: 32px;
+
+    border-radius: 10px;
+
+    background: #777;
+    color: white;
+}
+
+/* ---------- Stick ---------- */
+#stick-base {
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 2px solid white;
+}
+
+#stick-indicator {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: white;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
 }
 
 /* ---------- C Button Positions ---------- */
@@ -196,3 +256,35 @@ h2 {
 #c-Down {
 }
 
+/* ---------- D-Pad Button Positions ---------- */
+#d-up {
+    clip-path: polygon(
+        50% 0%,
+        100% 100%,
+        0% 100%
+    );
+}
+
+#d-down {
+    clip-path: polygon(
+        0% 0%,
+        100% 0%,
+        50% 100%
+    );
+}
+
+#d-left {
+    clip-path: polygon(
+        0% 50%,
+        100% 0%,
+        100% 100%
+    );
+}
+
+#d-right {
+    clip-path: polygon(
+        0% 0%,
+        100% 50%,
+        0% 100%
+    );
+}
