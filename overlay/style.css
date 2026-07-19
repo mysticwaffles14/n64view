@@ -171,14 +171,99 @@ h2 {
 }
 
 /* ---------- D-Pad Buttons ---------- */
+
+#dpad {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+}
+
 #d-up,
 #d-down,
 #d-left,
-#d-right {
+#d-right,
+#d-center {
     position: absolute;
     width: 30px;
     height: 30px;
-    background: #333;
+
+    background: linear-gradient(
+        145deg,
+        #444,
+        #222
+    );
+
+    box-shadow:
+        inset 2px 2px 3px rgba(255, 255, 255, 0.12),
+        inset -2px -2px 4px rgba(0, 0, 0, 0.45),
+        0 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Positions */
+
+#d-up {
+    left: 35px;
+    top: 5px;
+}
+
+#d-down {
+    left: 35px;
+    top: 65px;
+}
+
+#d-left {
+    left: 5px;
+    top: 35px;
+}
+
+#d-right {
+    left: 65px;
+    top: 35px;
+}
+
+#d-center {
+    left: 35px;
+    top: 35px;
+
+    border-radius: 4px;
+
+    box-shadow:
+        inset 0 0 6px rgba(0, 0, 0, 0.65);
+}
+
+/* Direction markings */
+
+#d-up::after,
+#d-down::after,
+#d-left::after,
+#d-right::after {
+    content: "";
+    position: absolute;
+
+    width: 8px;
+    height: 8px;
+
+    border-top: 2px solid #777;
+    border-left: 2px solid #777;
+
+    left: 50%;
+    top: 50%;
+}
+
+#d-up::after {
+    transform: translate(-50%, -25%) rotate(45deg);
+}
+
+#d-down::after {
+    transform: translate(-50%, -75%) rotate(225deg);
+}
+
+#d-left::after {
+    transform: translate(-25%, -50%) rotate(-45deg);
+}
+
+#d-right::after {
+    transform: translate(-75%, -50%) rotate(135deg);
 }
 
 /* ---------- A Button ---------- */
@@ -256,35 +341,4 @@ h2 {
 #c-Down {
 }
 
-/* ---------- D-Pad Button Positions ---------- */
-#d-up {
-    clip-path: polygon(
-        50% 0%,
-        100% 100%,
-        0% 100%
-    );
-}
 
-#d-down {
-    clip-path: polygon(
-        0% 0%,
-        100% 0%,
-        50% 100%
-    );
-}
-
-#d-left {
-    clip-path: polygon(
-        0% 50%,
-        100% 0%,
-        100% 100%
-    );
-}
-
-#d-right {
-    clip-path: polygon(
-        0% 0%,
-        100% 50%,
-        0% 100%
-    );
-}

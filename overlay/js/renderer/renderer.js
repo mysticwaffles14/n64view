@@ -39,28 +39,39 @@ export class Renderer {
                 y: 35
             },
 
+            dpad: {
+                element: document.getElementById("dpad"),
+                x: 50,
+                y: 120,
+                editable: true
+            },
+
             dUp: {
                 element: document.getElementById("d-up"),
-                x: 70,
-                y: 120
+                x: 35,
+                y: 5,
+                editable: false
             },
 
             dDown: {
                 element: document.getElementById("d-down"),
-                x: 70,
-                y: 180
+                x: 35,
+                y: 65,
+                editable: false
             },
 
             dLeft: {
                 element: document.getElementById("d-left"),
-                x: 40,
-                y: 150
+                x: 5,
+                y: 35,
+                editable: false
             },
 
             dRight: {
                 element: document.getElementById("d-right"),
-                x: 100,
-                y: 150
+                x: 65,
+                y: 35,
+                editable: false
             },
 
             cUp: {
@@ -276,6 +287,9 @@ initializeKeyboardShortcuts() {
 
 initializeMouseHandlers() {
     for (const [name, button] of Object.entries(this.buttons)) {
+        if (button.editable === false) {
+            continue;
+        }
         button.element.addEventListener("mousedown", (event) => {
             if (!this.layoutMode) {
                 return;
@@ -432,6 +446,10 @@ getLayoutSnapshot() {
     const snapshot = {};
 
     for (const [name, button] of Object.entries(this.buttons)) {
+        if (button.editable === false) {
+            continue;
+        }
+
         snapshot[name] = {
             x: button.x,
             y: button.y
