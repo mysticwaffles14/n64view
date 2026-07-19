@@ -141,6 +141,8 @@ initializeEditor() {
     this.snapToGrid = false;
     this.gridSize = 10;
 
+    this.currentSkin = "classic";
+
 
 }
 
@@ -184,6 +186,10 @@ setSkin(skinName) {
     document.body.classList.add(
         `skin-${skinName}`
     );
+
+    this.currentSkin = skinName;
+
+    this.loadLayout();
 
     console.log(`Skin changed to: ${skinName}`);
 }
@@ -620,14 +626,23 @@ updateStickIndicator() {
 saveLayout() {
     const layout = this.getLayoutSnapshot();
     const layoutText = JSON.stringify(layout);
-        localStorage.setItem("n64view-layout", layoutText);
+    const storageKey =
+        `n64view-layout-${this.currentSkin}`;
+
+    localStorage.setItem(
+        storageKey,
+        layoutText
+);
         console.log("Layout saved to localStorage");
 }   
 
 loadLayout() {
-    const layoutText =
-        localStorage.getItem("n64view-layout");
+    const storageKey =
+        `n64view-layout-${this.currentSkin}`;
 
+    const layoutText =
+        localStorage.getItem(storageKey);
+        
     if (!layoutText) {
         console.log("No saved layout found");
         return;
