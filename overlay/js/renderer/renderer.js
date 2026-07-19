@@ -161,6 +161,31 @@ initializeUI() {
 
     this.developerHeader =
     document.getElementById("developer-header");
+
+    this.skinSelect =
+    document.getElementById("skin-select");
+
+    this.skinSelect.addEventListener(
+    "change",
+    (event) => {
+        this.setSkin(event.target.value);
+    }
+);
+
+}
+
+setSkin(skinName) {
+    document.body.classList.remove(
+        "skin-classic",
+        "skin-test",
+        "skin-minimal"
+    );
+
+    document.body.classList.add(
+        `skin-${skinName}`
+    );
+
+    console.log(`Skin changed to: ${skinName}`);
 }
 
 initializeKeyboardShortcuts() {

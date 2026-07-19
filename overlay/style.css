@@ -531,8 +531,24 @@ body.editor-mode #debug-panel {
 }
 
 body.editor-mode {
-    background: #101114;
+    background: #101114 !important;
+    color: white;
     overflow: auto;
+}
+body.editor-mode #developer-header h1 {
+    color: white;
+}
+
+body.editor-mode #developer-header h2 {
+    color: #aeb4c0;
+}
+
+body.editor-mode #skin-controls {
+    color: white;
+}
+
+body.editor-mode #debug-panel {
+    color: white;
 }
 
 /* ---------- Editor Mode Layout ---------- */
@@ -578,6 +594,16 @@ body.editor-mode #viewport {
     border-radius: 12px;
 }
 
+body.editor-mode #skin-select {
+    background: #2a2d33;
+    color: white;
+
+    border: 1px solid #555;
+    border-radius: 4px;
+
+    padding: 4px 8px;
+}
+
 /* Never show editor grid in viewer mode */
 body:not(.editor-mode) #grid {
     display: none !important;
@@ -587,3 +613,93 @@ body:not(.editor-mode) .grid-line {
     display: none !important;
 }
 
+#skin-controls {
+    display: none;
+}
+
+body.editor-mode #skin-controls {
+    display: block;
+
+    position: fixed;
+    top: 90px;
+    left: 20px;
+
+    z-index: 1000;
+}
+
+/* ---------- Minimal Skin ---------- */
+
+/* ---------- Minimal Skin ---------- */
+
+/* Hide controller shell */
+.skin-minimal #controller-base {
+    display: none;
+}
+
+/* Flatter shared appearance */
+.skin-minimal #a-button,
+.skin-minimal #b-button,
+.skin-minimal #start-button,
+.skin-minimal #z-button,
+.skin-minimal #l-button,
+.skin-minimal #r-button,
+.skin-minimal .c-button,
+.skin-minimal #d-up,
+.skin-minimal #d-down,
+.skin-minimal #d-left,
+.skin-minimal #d-right,
+.skin-minimal #d-center,
+.skin-minimal #stick-base {
+    box-shadow: none;
+}
+
+/* A + B */
+.skin-minimal #a-button {
+    background: #3978ff;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+}
+
+.skin-minimal #b-button {
+    background: #12bd6b;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+}
+
+/* C Buttons */
+.skin-minimal .c-button {
+    background: #d6aa18;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+}
+
+/* START */
+.skin-minimal #start-button {
+    background: #d93b3b;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* L / R / Z */
+.skin-minimal #l-button,
+.skin-minimal #r-button,
+.skin-minimal #z-button {
+    background: #666;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* D-Pad */
+.skin-minimal #d-up,
+.skin-minimal #d-down,
+.skin-minimal #d-left,
+.skin-minimal #d-right,
+.skin-minimal #d-center {
+    background: #333;
+}
+
+/* Analog stick */
+.skin-minimal #stick-base {
+    background: rgba(30, 30, 30, 0.85);
+    border: 2px solid #777;
+}
+
+.skin-minimal #stick-indicator {
+    background: #888;
+    box-shadow: none;
+}
