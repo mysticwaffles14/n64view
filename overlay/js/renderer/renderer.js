@@ -5,44 +5,44 @@ export class Renderer {
         this.buttons = {
             a: {
                 element: document.getElementById("a-button"),
-                x: 255,
-                y: 185
+                x: 269,
+                y: 155
             },
 
             b: {
                 element: document.getElementById("b-button"),
-                x: 220,
-                y: 155
+                x: 240,
+                y: 128
             },
 
             start: {
                 element: document.getElementById("start-button"),
-                x: 200,
-                y: 230
+                x: 184,
+                y: 135
             },
 
             z: {
                 element: document.getElementById("z-button"),
-                x: 170,
-                y: 245
+                x: 173,
+                y: -3
             },
 
             l: {
                 element: document.getElementById("l-button"),
-                x: 35,
-                y: 35
+                x: 64,
+                y: 19
             },
 
             r: {
                 element: document.getElementById("r-button"),
-                x: 325,
-                y: 35
+                x: 273,
+                y: 20
             },
 
             dpad: {
                 element: document.getElementById("dpad"),
                 x: 50,
-                y: 120,
+                y: 94,
                 editable: true
             },
 
@@ -76,7 +76,7 @@ export class Renderer {
 
             cButtons: {
                 element: document.getElementById("c-buttons"),
-                x: 275,
+                x: 266,
                 y: 80
             },
 
@@ -110,8 +110,8 @@ export class Renderer {
 
             stick: {
                 element: document.getElementById("stick-base"),
-                x: 150,
-                y: 150
+                x: 163,
+                y: 181
             },
         };
 
@@ -653,7 +653,7 @@ saveLayout() {
     const layout = this.getLayoutSnapshot();
     const layoutText = JSON.stringify(layout);
     const storageKey =
-        `n64view-layout-${this.currentSkin}`;
+        `n64view-layout-v2-${this.currentSkin}`;
 
     localStorage.setItem(
         storageKey,
@@ -664,7 +664,7 @@ saveLayout() {
 
 loadLayout() {
     const storageKey =
-        `n64view-layout-${this.currentSkin}`;
+        `n64view-layout-v2-${this.currentSkin}`;
 
     const layoutText =
         localStorage.getItem(storageKey);
