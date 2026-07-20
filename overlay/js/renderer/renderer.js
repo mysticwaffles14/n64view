@@ -82,29 +82,29 @@ export class Renderer {
 
             cUp: {
                 element: document.getElementById("c-up"),
-                x: 45,
-                y: 0,
+                x: 34,
+                y: 10,
                 editable: false
             },
 
             cDown: {
                 element: document.getElementById("c-down"),
-                x: 45,
-                y: 60,
+                x: 34,
+                y: 56,
                 editable: false
             },
 
             cLeft: {
                 element: document.getElementById("c-left"),
-                x: 15,
-                y: 30,
+                x: 10,
+                y: 34,
                 editable: false
             },
 
             cRight: {
                 element: document.getElementById("c-right"),
-                x: 75,
-                y: 30,
+                x: 56,
+                y: 34,
                 editable: false
             },
 
@@ -124,26 +124,8 @@ export class Renderer {
             this.initializeKeyboardShortcuts();
             this.initializeMouseHandlers();
             this.createGrid();
-            this.loadLayout();
-}
-
-initializeEditor() {
-    this.layoutMode = false;
-    this.selectedButton = null;
-
-    this.dragging = false;
-    this.dragOffsetX = 0;
-    this.dragOffsetY = 0;
-
-    this.history = [];
-    this.redoHistory = [];
-
-    this.snapToGrid = false;
-    this.gridSize = 10;
-
-    this.currentSkin = "classic";
-
-
+            this.setSkin(this.currentSkin);
+            
 }
 
 initializeUI() {
@@ -175,23 +157,23 @@ initializeUI() {
 );
 
 }
+initializeEditor() {
+    this.layoutMode = false;
+    this.selectedButton = null;
 
-setSkin(skinName) {
-    document.body.classList.remove(
-        "skin-classic",
-        "skin-test",
-        "skin-minimal"
-    );
+    this.dragging = false;
+    this.dragOffsetX = 0;
+    this.dragOffsetY = 0;
 
-    document.body.classList.add(
-        `skin-${skinName}`
-    );
+    this.history = [];
+    this.redoHistory = [];
 
-    this.currentSkin = skinName;
+    this.snapToGrid = false;
+    this.gridSize = 10;
 
-    this.loadLayout();
+    this.currentSkin =
+        localStorage.getItem("n64view-skin") || "classic";
 
-    console.log(`Skin changed to: ${skinName}`);
 }
 
 initializeKeyboardShortcuts() {
@@ -331,13 +313,22 @@ initializeKeyboardShortcuts() {
     });
 }
 
+isButtonVisible(button) {
+    return button.element.offsetParent !== null;
+}
+
 initializeMouseHandlers() {
     for (const [name, button] of Object.entries(this.buttons)) {
         if (button.editable === false) {
             continue;
         }
+
         button.element.addEventListener("mousedown", (event) => {
             if (!this.layoutMode) {
+                return;
+            }
+
+            if (!this.isButtonVisible(button)) {
                 return;
             }
 
@@ -350,17 +341,26 @@ initializeMouseHandlers() {
             const viewportRect =
                 button.element.parentElement.getBoundingClientRect();
 
-            const mouseX = event.clientX - viewportRect.left;
-            const mouseY = event.clientY - viewportRect.top;
+            const mouseX =
+                event.clientX - viewportRect.left;
 
-            this.dragOffsetX = mouseX - button.x;
-            this.dragOffsetY = mouseY - button.y;
+            const mouseY =
+                event.clientY - viewportRect.top;
+
+            this.dragOffsetX =
+                mouseX - button.x;
+
+            this.dragOffsetY =
+                mouseY - button.y;
 
             this.updateLayoutMode();
 
             console.log(`Selected button: ${name}`);
         });
     }
+
+    // Keep your existing mousemove and mouseup code
+    // directly below here.
 
     window.addEventListener("mousemove", (event) => {
         if (
@@ -391,6 +391,56 @@ initializeMouseHandlers() {
         this.dragging = false;
     });
 }
+
+createGrid() {
+    this.grid.innerHTML = "";
+
+    const width = this.grid.clientWidth;
+    const height = this.grid.clientHeight;
+
+    for (let x = 0; x <= width; x += this.gridSize) {
+        const line = document.createElement("div");
+
+        line.className = "grid-line vertical";
+        line.style.left = `${x}px`;
+
+        this.grid.appendChild(line);
+    }
+
+    for (let y = 0; y <= height; y += this.gridSize) {
+        const line = document.createElement("div");
+
+        line.className = "grid-line horizontal";
+        line.style.top = `${y}px`;
+
+        this.grid.appendChild(line);
+    }
+}
+
+setSkin(skinName) {
+    document.body.classList.remove(
+        "skin-classic",
+        "skin-minimal"
+    );
+
+    document.body.classList.add(
+        `skin-${skinName}`
+    );
+
+    this.currentSkin = skinName;
+
+    localStorage.setItem(
+        "n64view-skin",
+        skinName
+    );
+
+    this.skinSelect.value = skinName;
+
+    this.loadLayout();
+
+    console.log(`Skin changed to: ${skinName}`);
+}
+
 
     positionButton(button) {
         button.element.style.left = `${button.x}px`;
@@ -423,14 +473,16 @@ this.selectedButton.y = newY;
     this.updateLayoutInfo();
 
 }
-    animateButton(button, pressed) {
-        button.element.style.transform = pressed
-        ? "translateY(2px) scale(0.96)"
-        : "translateY(0) scale(1)";
+animateButton(button, pressed) {
+    const element = button.element;
 
-        button.element.style.filter = pressed
-        ? "brightness(1.25)"
-        : "brightness(1)";
+    if (pressed) {
+        element.style.filter = "brightness(0.82)";
+        element.style.translate = "0 1px";
+    } else {
+        element.style.filter = "brightness(1)";
+        element.style.translate = "0 0";
+    }
 }
 
 updateLayoutMode() {
@@ -464,23 +516,20 @@ updateLayoutMode() {
 }
 
 copyLayout() {
-    const layout = {};
+    const layout = this.getLayoutSnapshot();
 
-    for (const [name, button] of Object.entries(this.buttons)) {
-        layout[name] = {
-            x: button.x,
-            y: button.y
-        };
-    }
-
-    const layoutText = JSON.stringify(layout, null, 4);
+    const layoutText =
+        JSON.stringify(layout, null, 4);
 
     navigator.clipboard.writeText(layoutText)
         .then(() => {
             console.log("Layout copied to clipboard");
         })
         .catch((error) => {
-            console.error("Could not copy layout:", error);
+            console.error(
+                "Could not copy layout:",
+                error
+            );
         });
 }
 
@@ -573,30 +622,7 @@ redo() {
     console.log("Redo complete");
 }
 
-createGrid() {
-    this.grid.innerHTML = "";
 
-    const width = this.grid.clientWidth;
-    const height = this.grid.clientHeight;
-
-    for (let x = 0; x <= width; x += this.gridSize) {
-        const line = document.createElement("div");
-
-        line.className = "grid-line vertical";
-        line.style.left = `${x}px`;
-
-        this.grid.appendChild(line);
-    }
-
-    for (let y = 0; y <= height; y += this.gridSize) {
-        const line = document.createElement("div");
-
-        line.className = "grid-line horizontal";
-        line.style.top = `${y}px`;
-
-        this.grid.appendChild(line);
-    }
-}
 
 updateStickIndicator() {
     const maxMovement = 25;
@@ -642,7 +668,7 @@ loadLayout() {
 
     const layoutText =
         localStorage.getItem(storageKey);
-        
+
     if (!layoutText) {
         console.log("No saved layout found");
         return;

@@ -87,7 +87,7 @@ h2 {
 
     object-fit: contain;
 
-    opacity: 0.3;
+    opacity: 0.7;
 
     pointer-events: none;
 }
@@ -167,8 +167,8 @@ h2 {
 
 #c-buttons {
     position: absolute;
-    width: 120px;
-    height: 105px;
+    width: 100px;
+    height: 100px;
 }
 
 .c-button {
@@ -200,12 +200,34 @@ h2 {
         0 2px 4px rgba(0, 0, 0, 0.35);
 }
 
+/* Classic C-buttons */
+body:not(.skin-minimal) .c-button {
+    width: 29px;
+    height: 29px;
+
+    background: linear-gradient(
+        145deg,
+        #d7ad25 0%,
+        #bd9417 60%,
+        #a77e0b 100%
+    );
+
+    color: #7a5d08;
+
+    font-size: 15px;
+
+    box-shadow:
+        inset 1px 1px 2px rgba(255, 255, 255, 0.22),
+        inset -1px -1px 2px rgba(0, 0, 0, 0.22),
+        0 1px 2px rgba(0, 0, 0, 0.28);
+}
+
 /* ---------- D-Pad Buttons ---------- */
 
 #dpad {
     position: absolute;
-    width: 100px;
-    height: 100px;
+    width: 72px;
+    height: 72px;
 }
 
 #d-up,
@@ -214,54 +236,36 @@ h2 {
 #d-right,
 #d-center {
     position: absolute;
-    width: 30px;
-    height: 30px;
-
-    background: linear-gradient(
-        145deg,
-        #444,
-        #222
-    );
-
-    box-shadow:
-        inset 2px 2px 3px rgba(255, 255, 255, 0.12),
-        inset -2px -2px 4px rgba(0, 0, 0, 0.45),
-        0 2px 4px rgba(0, 0, 0, 0.4);
+    width: 24px;
+    height: 24px;
 }
 
-/* Positions */
-
 #d-up {
-    left: 35px;
-    top: 5px;
+    left: 24px;
+    top: 0;
 }
 
 #d-down {
-    left: 35px;
-    top: 65px;
+    left: 24px;
+    top: 48px;
 }
 
 #d-left {
-    left: 5px;
-    top: 35px;
+    left: 0;
+    top: 24px;
 }
 
 #d-right {
-    left: 65px;
-    top: 35px;
+    left: 48px;
+    top: 24px;
 }
 
 #d-center {
-    left: 35px;
-    top: 35px;
-
-    border-radius: 4px;
-
-    box-shadow:
-        inset 0 0 6px rgba(0, 0, 0, 0.65);
+    left: 24px;
+    top: 24px;
 }
 
-/* Direction markings */
+/* ---------- D-Pad Direction Markings ---------- */
 
 #d-up::after,
 #d-down::after,
@@ -270,11 +274,11 @@ h2 {
     content: "";
     position: absolute;
 
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
 
-    border-top: 2px solid #777;
-    border-left: 2px solid #777;
+    border-top: 2px solid #858189;
+    border-left: 2px solid #858189;
 
     left: 50%;
     top: 50%;
@@ -296,6 +300,34 @@ h2 {
     transform: translate(-75%, -50%) rotate(135deg);
 }
 
+/* Classic D-pad center */
+body:not(.skin-minimal) #d-center {
+    background: transparent;
+
+    box-shadow: none;
+
+    border-radius: 0;
+
+    z-index: 0;
+}
+
+body:not(.skin-minimal) #d-up,
+body:not(.skin-minimal) #d-down,
+body:not(.skin-minimal) #d-left,
+body:not(.skin-minimal) #d-right {
+    background: linear-gradient(
+        145deg,
+        #69656d 0%,
+        #5b5860 55%,
+        #4d4a51 100%
+    );
+
+    box-shadow:
+        inset 1px 1px 2px rgba(255, 255, 255, 0.16),
+        inset -1px -1px 2px rgba(0, 0, 0, 0.28),
+        0 1px 2px rgba(0, 0, 0, 0.28);
+}
+
 /* ---------- A & B Buttons ---------- */
 
 #a-button,
@@ -314,30 +346,40 @@ h2 {
         0 3px 5px rgba(0, 0, 0, 0.4);
 }
 
-#a-button {
-    width: 60px;
-    height: 60px;
+body:not(.skin-minimal) #a-button {
+    width: 38px;
+    height: 38px;
 
     background: linear-gradient(
         145deg,
-        #3978ff,
-        #1450d8
+        #2f67d8,
+        #1d4fae
     );
 
-    color:#003caa;
+    color: #0f3f91;
+
+    box-shadow:
+        inset 2px 2px 3px rgba(255, 255, 255, 0.18),
+        inset -2px -2px 4px rgba(0, 0, 0, 0.25),
+        0 2px 4px rgba(0, 0, 0, 0.35);
 }
 
-#b-button {
-    width: 60px;
-    height: 60px;
+body:not(.skin-minimal) #b-button {
+    width: 38px;
+    height: 38px;
 
     background: linear-gradient(
         145deg,
-        #12bd6b,
-        #078b4b
+        #16a75c,
+        #087d43
     );
 
-    color:#006b3c;
+    color: #075f36;
+
+    box-shadow:
+        inset 2px 2px 3px rgba(255, 255, 255, 0.18),
+        inset -2px -2px 4px rgba(0, 0, 0, 0.25),
+        0 2px 4px rgba(0, 0, 0, 0.35);
 }
 
 /* ---------- Start Button ---------- */
@@ -369,6 +411,28 @@ h2 {
         0 3px 5px rgba(0, 0, 0, 0.4);
 } 
 
+/* Classic START button */
+body:not(.skin-minimal) #start-button {
+    width: 32px;
+    height: 32px;
+
+    background: linear-gradient(
+        145deg,
+        #c85a58,
+        #9e3f3e
+    );
+
+    color: #7d302f;
+
+    font-size: 7px;
+    letter-spacing: -0.4px;
+
+    box-shadow:
+        inset 1px 1px 2px rgba(255, 255, 255, 0.18),
+        inset -1px -1px 3px rgba(0, 0, 0, 0.25),
+        0 2px 3px rgba(0, 0, 0, 0.3);
+}
+
 /* ---------- Z Button ---------- */
 
 #z-button {
@@ -395,6 +459,26 @@ h2 {
         inset 0 2px 3px rgba(255, 255, 255, 0.2),
         inset 0 -3px 4px rgba(0, 0, 0, 0.35),
         0 3px 5px rgba(0, 0, 0, 0.4);
+}
+
+/* Classic Z button */
+body:not(.skin-minimal) #z-button {
+    transform: scale(0.83);
+    transform-origin: center;
+
+    background: linear-gradient(
+        180deg,
+        #858585 0%,
+        #686868 55%,
+        #505050 100%
+    );
+
+    color: white;
+
+    box-shadow:
+        inset 0 2px 2px rgba(255, 255, 255, 0.20),
+        inset 0 -2px 3px rgba(0, 0, 0, 0.30),
+        0 2px 4px rgba(0, 0, 0, 0.35);
 }
 
 /* ---------- Shoulder Buttons ---------- */
@@ -428,6 +512,27 @@ h2 {
         0 3px 5px rgba(0, 0, 0, 0.4);
 }
 
+/* Classic L / R buttons */
+body:not(.skin-minimal) #l-button,
+body:not(.skin-minimal) #r-button {
+    transform: scale(0.80);
+    transform-origin: center;
+
+    background: linear-gradient(
+        180deg,
+        #8b8b8b 0%,
+        #6f6f6f 55%,
+        #555 100%
+    );
+
+    color: white;
+
+    box-shadow:
+        inset 0 2px 2px rgba(255, 255, 255, 0.20),
+        inset 0 -2px 3px rgba(0, 0, 0, 0.28),
+        0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
 /* ---------- Stick ---------- */
 
 #stick-base {
@@ -450,6 +555,12 @@ h2 {
     box-shadow:
         inset 0 0 10px rgba(0, 0, 0, 0.75),
         0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+/* Classic stick visual size */
+body:not(.skin-minimal) #stick-base {
+    transform: scale(0.76);
+    transform-origin: center;
 }
 
 #stick-indicator {
@@ -500,6 +611,66 @@ h2 {
 
     box-shadow:
         inset 0 1px 1px rgba(255, 255, 255, 0.12);
+}
+
+/* Classic analog stick knob appearance */
+body:not(.skin-minimal) #stick-indicator {
+    background: radial-gradient(
+        circle at 42% 38%,
+        #9a989a 0%,
+        #858386 38%,
+        #706e72 70%,
+        #5d5b5f 100%
+    );
+
+    border: 1px solid #4f4d51;
+
+    box-shadow:
+        inset 1px 1px 2px rgba(255, 255, 255, 0.20),
+        inset -1px -1px 3px rgba(0, 0, 0, 0.28),
+        0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+body:not(.skin-minimal) #stick-indicator::after {
+    background: #666468;
+
+    box-shadow:
+        inset 0 1px 1px rgba(255, 255, 255, 0.12);
+}
+
+/* ---------- Classic Skin Final Polish ---------- */
+
+/* Consistent molded edge for face controls */
+body:not(.skin-minimal) #a-button,
+body:not(.skin-minimal) #b-button,
+body:not(.skin-minimal) #start-button,
+body:not(.skin-minimal) .c-button {
+    border: 1px solid rgba(40, 40, 40, 0.35);
+}
+
+/* Slight highlight around A/B */
+body:not(.skin-minimal) #a-button,
+body:not(.skin-minimal) #b-button {
+    box-shadow:
+        inset 1px 1px 2px rgba(255, 255, 255, 0.20),
+        inset -1px -1px 3px rgba(0, 0, 0, 0.25),
+        0 1px 2px rgba(0, 0, 0, 0.30);
+}
+
+/* Keep START softer and less prominent */
+body:not(.skin-minimal) #start-button {
+    box-shadow:
+        inset 1px 1px 2px rgba(255, 255, 255, 0.15),
+        inset -1px -1px 2px rgba(0, 0, 0, 0.22),
+        0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+/* C-buttons: slightly cleaner molded yellow plastic */
+body:not(.skin-minimal) .c-button {
+    box-shadow:
+        inset 1px 1px 2px rgba(255, 255, 255, 0.20),
+        inset -1px -1px 2px rgba(0, 0, 0, 0.20),
+        0 1px 2px rgba(0, 0, 0, 0.25);
 }
 
 /* ---------- Developer UI ---------- */
@@ -629,77 +800,110 @@ body.editor-mode #skin-controls {
 
 /* ---------- Minimal Skin ---------- */
 
-/* ---------- Minimal Skin ---------- */
-
 /* Hide controller shell */
-.skin-minimal #controller-base {
+.skin-minimal #controller-base,
+.skin-minimal #dpad,
+.skin-minimal #l-button {
     display: none;
 }
 
-/* Flatter shared appearance */
+/* A + B */
 .skin-minimal #a-button,
-.skin-minimal #b-button,
-.skin-minimal #start-button,
-.skin-minimal #z-button,
-.skin-minimal #l-button,
-.skin-minimal #r-button,
-.skin-minimal .c-button,
-.skin-minimal #d-up,
-.skin-minimal #d-down,
-.skin-minimal #d-left,
-.skin-minimal #d-right,
-.skin-minimal #d-center,
-.skin-minimal #stick-base {
-    box-shadow: none;
+.skin-minimal #b-button {
+    width: 52px;
+    height: 52px;
+    background: rgba(15, 15, 18, 0.88);
+
+    border: 3px solid;
+
+    box-shadow:
+        0 0 8px rgba(255, 255, 255, 0.12);
+
+    color: white;
 }
 
-/* A + B */
 .skin-minimal #a-button {
-    background: #3978ff;
-    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-color: #3978ff;
+
+    box-shadow:
+        0 0 10px rgba(57, 120, 255, 0.5);
 }
 
 .skin-minimal #b-button {
-    background: #12bd6b;
-    border: 2px solid rgba(255, 255, 255, 0.35);
-}
+    border-color: #12bd6b;
 
-/* C Buttons */
-.skin-minimal .c-button {
-    background: #d6aa18;
-    border: 2px solid rgba(255, 255, 255, 0.25);
+    box-shadow:
+        0 0 10px rgba(18, 189, 107, 0.5);
 }
 
 /* START */
 .skin-minimal #start-button {
-    background: #d93b3b;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    width: 34px;
+    height: 34px;
+    background: rgba(15, 15, 18, 0.88);
+
+    border: 2px solid #e84b4b;
+
+    color: #ff7070;
+
+    box-shadow:
+        0 0 8px rgba(232, 75, 75, 0.45);
 }
 
-/* L / R / Z */
-.skin-minimal #l-button,
+/* R + Z */
 .skin-minimal #r-button,
 .skin-minimal #z-button {
-    background: #666;
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    width: 56px;
+    height: 30px;
+    background: rgba(15, 15, 18, 0.88);
+
+    border: 2px solid #aaa;
+
+    color: white;
+
+    box-shadow:
+        0 0 7px rgba(255, 255, 255, 0.18);
 }
 
-/* D-Pad */
-.skin-minimal #d-up,
-.skin-minimal #d-down,
-.skin-minimal #d-left,
-.skin-minimal #d-right,
-.skin-minimal #d-center {
-    background: #333;
+/* C Buttons */
+.skin-minimal .c-button {
+    width: 40px;
+    height: 40px;
+    background: rgba(15, 15, 18, 0.88);
+
+    border: 2px solid #d6aa18;
+
+    color: #f2c62e;
+
+    box-shadow:
+        0 0 7px rgba(214, 170, 24, 0.4);
 }
 
-/* Analog stick */
+/* Analog stick base */
 .skin-minimal #stick-base {
-    background: rgba(30, 30, 30, 0.85);
-    border: 2px solid #777;
+    width: 62px;
+    height: 62px;
+    background: rgba(15, 15, 18, 0.88);
+
+    border: 3px solid #888;
+
+    box-shadow:
+        0 0 8px rgba(255, 255, 255, 0.15);
 }
 
+/* Moving stick indicator */
 .skin-minimal #stick-indicator {
-    background: #888;
-    box-shadow: none;
+    width: 28px;
+    height: 28px;
+    background: #aaa;
+
+    border: none;
+
+    box-shadow:
+        0 0 6px rgba(255, 255, 255, 0.35);
+}
+
+/* Remove center decoration */
+.skin-minimal #stick-indicator::after {
+    display: none;
 }
