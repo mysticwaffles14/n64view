@@ -2,6 +2,52 @@ export class Renderer {
     constructor(controllerState) {
         this.controller = controllerState;
 
+
+/*----------------- Built-in Skin Layouts ---------------- */
+    this.defaultCButtonLayouts = {
+    classic: {
+        cUp: { x: 34, y: 10 },
+        cDown: { x: 34, y: 56 },
+        cLeft: { x: 10, y: 34 },
+        cRight: { x: 56, y: 34 }
+    },
+
+    minimal: {
+        cUp: { x: 40, y: 4 },
+        cDown: { x: 40, y: 76 },
+        cLeft: { x: 4, y: 40 },
+        cRight: { x: 76, y: 40 }
+    }
+};      
+
+
+    this.defaultLayouts = {
+            classic: {
+                a: { x: 269, y: 155 },
+                b: { x: 240, y: 128 },
+                start: { x: 184, y: 135 },
+                z: { x: 173, y: -3 },
+                l: { x: 64, y: 19 },
+                r: { x: 273, y: 20 },
+                dpad: { x: 50, y: 94 },
+                cButtons: { x: 266, y: 80 },
+                stick: { x: 163, y: 181 }
+        },
+
+            minimal: {
+                a: { x: 218, y: 156 },
+                b: { x: 176, y: 108 },
+                start: { x: 117, y: 106 },
+                z: { x: 107, y: 174 },
+                r: { x: 195, y: 57 },
+                cButtons: { x: 273, y: 75 },
+                stick: { x: 24, y: 96 }
+        }
+        
+};
+
+/* ---------------------Buttons --------------------- */
+
         this.buttons = {
             a: {
                 element: document.getElementById("a-button"),
@@ -436,11 +482,55 @@ setSkin(skinName) {
 
     this.skinSelect.value = skinName;
 
+    this.applyDefaultLayout(skinName);
+    this.applyCButtonLayout(skinName);
     this.loadLayout();
 
     console.log(`Skin changed to: ${skinName}`);
 }
 
+applyCButtonLayout(skinName) {
+    const layout =
+        this.defaultCButtonLayouts[skinName];
+
+    if (!layout) {
+        return;
+    }
+
+    for (const [name, position] of Object.entries(layout)) {
+        const button = this.buttons[name];
+
+        if (!button) {
+            continue;
+        }
+
+        button.x = position.x;
+        button.y = position.y;
+
+        this.positionButton(button);
+    }
+}
+
+applyDefaultLayout(skinName) {
+    const layout = this.defaultLayouts[skinName];
+
+    if (!layout) {
+        return;
+    }
+
+    for (const [name, position] of Object.entries(layout)) {
+        const button = this.buttons[name];
+
+        if (!button) {
+            continue;
+        }
+
+        button.x = position.x;
+        button.y = position.y;
+
+        this.positionButton(button);
+    }
+}
 
     positionButton(button) {
         button.element.style.left = `${button.x}px`;
@@ -475,6 +565,11 @@ this.selectedButton.y = newY;
 }
 animateButton(button, pressed) {
     const element = button.element;
+
+    element.classList.toggle(
+        "is-pressed",
+        pressed
+    );
 
     if (pressed) {
         element.style.filter = "brightness(0.82)";
@@ -639,6 +734,11 @@ updateStickIndicator() {
         y = 0;
     }
 
+    const magnitude = Math.min(
+        1,
+        Math.sqrt(x * x + y * y)
+    );
+
     x *= maxMovement;
     y *= maxMovement;
 
@@ -647,13 +747,23 @@ updateStickIndicator() {
             calc(-50% + ${x}px),
             calc(-50% + ${y}px)
         )`;
+
+    this.stickIndicator.style.setProperty(
+        "--stick-strength",
+        magnitude
+    );
+
+    this.buttons.stick.element.style.setProperty(
+        "--stick-strength",
+        magnitude
+    );
 }
 
 saveLayout() {
     const layout = this.getLayoutSnapshot();
     const layoutText = JSON.stringify(layout);
     const storageKey =
-        `n64view-layout-v2-${this.currentSkin}`;
+        `n64view-layout-v3S-${this.currentSkin}`;
 
     localStorage.setItem(
         storageKey,
@@ -664,7 +774,7 @@ saveLayout() {
 
 loadLayout() {
     const storageKey =
-        `n64view-layout-v2-${this.currentSkin}`;
+        `n64view-layout-v3-${this.currentSkin}`;
 
     const layoutText =
         localStorage.getItem(storageKey);

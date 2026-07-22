@@ -228,6 +228,7 @@ body:not(.skin-minimal) .c-button {
     position: absolute;
     width: 72px;
     height: 72px;
+    display: none
 }
 
 #d-up,
@@ -807,103 +808,221 @@ body.editor-mode #skin-controls {
     display: none;
 }
 
-/* A + B */
+/* ---------- Minimal A + B ---------- */
+
 .skin-minimal #a-button,
 .skin-minimal #b-button {
     width: 52px;
     height: 52px;
-    background: rgba(15, 15, 18, 0.88);
 
-    border: 3px solid;
+    /* Flat dark translucent face */
+    background: rgba(18, 18, 22, 0.92);
 
+    border: 2px solid;
+
+    color: rgba(255, 255, 255, 0.92);
+
+    /* Cleaner, subtler depth */
     box-shadow:
-        0 0 8px rgba(255, 255, 255, 0.12);
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+        0 2px 4px rgba(0, 0, 0, 0.30);
 
-    color: white;
+    font-weight: bold;
 }
 
+/* Minimal A */
 .skin-minimal #a-button {
     border-color: #3978ff;
 
     box-shadow:
-        0 0 10px rgba(57, 120, 255, 0.5);
+        inset 0 0 0 1px rgba(57, 120, 255, 0.16),
+        0 0 7px rgba(57, 120, 255, 0.30),
+        0 2px 4px rgba(0, 0, 0, 0.30);
 }
 
+/* Minimal B */
 .skin-minimal #b-button {
     border-color: #12bd6b;
 
     box-shadow:
-        0 0 10px rgba(18, 189, 107, 0.5);
+        inset 0 0 0 1px rgba(18, 189, 107, 0.16),
+        0 0 7px rgba(18, 189, 107, 0.30),
+        0 2px 4px rgba(0, 0, 0, 0.30);
 }
 
-/* START */
+/* ---------- Minimal START ---------- */
+
 .skin-minimal #start-button {
     width: 34px;
     height: 34px;
-    background: rgba(15, 15, 18, 0.88);
+
+    background: rgba(18, 18, 22, 0.92);
 
     border: 2px solid #e84b4b;
 
-    color: #ff7070;
+    color: #ff8585;
+
+    font-size: 8px;
+    font-weight: bold;
 
     box-shadow:
-        0 0 8px rgba(232, 75, 75, 0.45);
+        inset 0 0 0 1px rgba(232, 75, 75, 0.16),
+        0 0 7px rgba(232, 75, 75, 0.30),
+        0 2px 4px rgba(0, 0, 0, 0.30);
 }
 
-/* R + Z */
+/* ---------- Minimal R + Z ---------- */
+
 .skin-minimal #r-button,
 .skin-minimal #z-button {
     width: 56px;
     height: 30px;
-    background: rgba(15, 15, 18, 0.88);
 
-    border: 2px solid #aaa;
+    background: rgba(18, 18, 22, 0.92);
 
-    color: white;
+    border: 2px solid #9a9a9a;
+
+    color: rgba(255, 255, 255, 0.92);
+
+    font-weight: bold;
 
     box-shadow:
-        0 0 7px rgba(255, 255, 255, 0.18);
+        inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+        0 0 6px rgba(255, 255, 255, 0.16),
+        0 2px 4px rgba(0, 0, 0, 0.30);
 }
 
-/* C Buttons */
+/* ---------- Minimal C Buttons ---------- */
+
 .skin-minimal .c-button {
-    width: 40px;
-    height: 40px;
-    background: rgba(15, 15, 18, 0.88);
+    width: 36px;
+    height: 36px;
+
+    background: rgba(18, 18, 22, 0.92);
 
     border: 2px solid #d6aa18;
 
     color: #f2c62e;
 
+    font-size: 16px;
+    font-weight: bold;
+
     box-shadow:
-        0 0 7px rgba(214, 170, 24, 0.4);
+        inset 0 0 0 1px rgba(214, 170, 24, 0.16),
+        0 0 7px rgba(214, 170, 24, 0.30),
+        0 2px 4px rgba(0, 0, 0, 0.30);
 }
+
+/* ---------- Minimal Analog Stick ---------- */
 
 /* Analog stick base */
 .skin-minimal #stick-base {
-    width: 62px;
-    height: 62px;
-    background: rgba(15, 15, 18, 0.88);
+    width: 68px;
+    height: 68px;
 
-    border: 3px solid #888;
+    background: rgba(18, 18, 22, 0.92);
+
+    border: 2px solid #888;
 
     box-shadow:
-        0 0 8px rgba(255, 255, 255, 0.15);
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+        inset 0 0 8px rgba(0, 0, 0, 0.35),
+        0 0 6px rgba(255, 255, 255, 0.12),
+        0 2px 4px rgba(0, 0, 0, 0.30);
 }
 
 /* Moving stick indicator */
 .skin-minimal #stick-indicator {
-    width: 28px;
-    height: 28px;
-    background: #aaa;
+    width: 30px;
+    height: 30px;
 
-    border: none;
+    background: rgba(185, 185, 190, 0.95);
+
+    border: 1px solid rgba(255, 255, 255, 0.18);
 
     box-shadow:
-        0 0 6px rgba(255, 255, 255, 0.35);
+        inset 1px 1px 2px rgba(255, 255, 255, 0.18),
+        inset -1px -1px 2px rgba(0, 0, 0, 0.22),
+        0 0 5px rgba(255, 255, 255, 0.20),
+        0 2px 3px rgba(0, 0, 0, 0.30);
 }
 
-/* Remove center decoration */
+/* Minimal has no center-dot decoration */
 .skin-minimal #stick-indicator::after {
     display: none;
+}
+
+/* ---------- Minimal Pressed States ---------- */
+
+.skin-minimal #a-button.is-pressed {
+    background: #3978ff;
+    color: white;
+
+    box-shadow:
+        0 0 16px rgba(57, 120, 255, 0.85),
+        inset 0 0 8px rgba(255, 255, 255, 0.18);
+}
+
+.skin-minimal #b-button.is-pressed {
+    background: #12bd6b;
+    color: white;
+
+    box-shadow:
+        0 0 16px rgba(18, 189, 107, 0.85),
+        inset 0 0 8px rgba(255, 255, 255, 0.18);
+}
+
+.skin-minimal #start-button.is-pressed {
+    background: #e84b4b;
+    color: white;
+
+    box-shadow:
+        0 0 14px rgba(232, 75, 75, 0.8);
+}
+
+.skin-minimal .c-button.is-pressed {
+    background: #d6aa18;
+    color: #1a1a1a;
+
+    box-shadow:
+        0 0 14px rgba(214, 170, 24, 0.85);
+}
+
+.skin-minimal #r-button.is-pressed,
+.skin-minimal #z-button.is-pressed {
+    background: #aaa;
+    color: #111;
+
+    box-shadow:
+        0 0 12px rgba(255, 255, 255, 0.65);
+}
+
+/* ---------- Minimal Stick Activity ---------- */
+
+.skin-minimal #stick-base {
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+        inset 0 0 8px rgba(0, 0, 0, 0.35),
+        0 0 calc(6px + 10px * var(--stick-strength, 0))
+            rgba(
+                255,
+                255,
+                255,
+                calc(0.12 + 0.45 * var(--stick-strength, 0))
+            ),
+        0 2px 4px rgba(0, 0, 0, 0.30);
+}
+
+.skin-minimal #stick-indicator {
+    box-shadow:
+        inset 1px 1px 2px rgba(255, 255, 255, 0.18),
+        inset -1px -1px 2px rgba(0, 0, 0, 0.22),
+        0 0 calc(5px + 8px * var(--stick-strength, 0))
+            rgba(
+                255,
+                255,
+                255,
+                calc(0.20 + 0.50 * var(--stick-strength, 0))
+            ),
+        0 2px 3px rgba(0, 0, 0, 0.30);
 }
