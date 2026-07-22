@@ -27,13 +27,14 @@ export function getPreferredGamepad() {
     const matchingGamepads = gamepads.filter((gamepad) =>
         /mayflash|mf103|xbox 360/i.test(gamepad.id)
     );
-
-    const activeGamepad = matchingGamepads.find(hasActivity);
+    const activeGamepad =
+        matchingGamepads.find(hasActivity) ??
+        gamepads.find(hasActivity);
 
     if (activeGamepad) {
         selectedGamepadIndex = activeGamepad.index;
         return activeGamepad;
-    }
+}
 
     const previouslySelected = gamepads.find(
         (gamepad) => gamepad.index === selectedGamepadIndex

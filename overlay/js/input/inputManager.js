@@ -9,8 +9,9 @@ export class InputManager {
         const gamepad = getPreferredGamepad();
 
         if (!gamepad) {
+            this.resetControllerState();
             return false;
-        }
+}
       
         this.controllerState.a = this.isButtonPressed(gamepad, 1);
         this.controllerState.b = this.isButtonPressed(gamepad, 0);
@@ -38,6 +39,28 @@ export class InputManager {
  
         return true;
     }
+
+    resetControllerState() {
+    this.controllerState.a = false;
+    this.controllerState.b = false;
+    this.controllerState.z = false;
+    this.controllerState.l = false;
+    this.controllerState.r = false;
+    this.controllerState.start = false;
+
+    this.controllerState.dUp = false;
+    this.controllerState.dDown = false;
+    this.controllerState.dLeft = false;
+    this.controllerState.dRight = false;
+
+    this.controllerState.cUp = false;
+    this.controllerState.cDown = false;
+    this.controllerState.cLeft = false;
+    this.controllerState.cRight = false;
+
+    this.controllerState.stick.x = 0;
+    this.controllerState.stick.y = 0;
+}
 
     isButtonPressed(gamepad, buttonIndex) {
         const button = gamepad.buttons[buttonIndex];

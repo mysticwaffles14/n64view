@@ -217,8 +217,16 @@ initializeEditor() {
     this.snapToGrid = false;
     this.gridSize = 10;
 
+    const urlParams =
+    new URLSearchParams(window.location.search);
+
+    const skinFromUrl =
+        urlParams.get("skin");
+
     this.currentSkin =
-        localStorage.getItem("n64view-skin") || "classic";
+        skinFromUrl ||
+        localStorage.getItem("n64view-skin") ||
+        "classic";
 
 }
 
